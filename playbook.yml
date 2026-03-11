@@ -7,4 +7,16 @@
           major: 4
           minor: 0
           teeny: 1
+      become: true
       tags: [ ruby ]
+    - role: suhlig.foundation.minimal
+      become: true
+      tags: [ suhlig ]
+    - role: suhlig.foundation.local_user
+      vars:
+        local_user:
+          name: suhlig
+          comment: Steffen Uhlig
+          github_user: suhlig
+      become: true
+      tags: [ suhlig, user ]
