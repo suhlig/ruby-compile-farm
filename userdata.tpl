@@ -11,12 +11,3 @@ ssh_keys:
 runcmd:
   - [ sh, -c, 'curl -fsSL https://tailscale.com/install.sh | sh']
   - [ tailscale, up, -authkey, "${tailscale_auth_key}", --ssh, --accept-routes, --hostname, "${server_name}" ]
-ansible:
-  package_name: ansible
-  install_method: distro
-  pull:
-    url: https://github.com/suhlig/foundation
-    playbook_name: roles/main/example/local.yml
-  galaxy:
-    actions:
-      - ["ansible-galaxy", "collection", "install", "suhlig.foundation"]

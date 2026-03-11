@@ -32,7 +32,6 @@ resource "hcloud_server" "hcloud-server" {
   user_data = templatefile("${path.module}/userdata.tpl", {
     tailscale_auth_key = tailscale_tailnet_key.tailscale_auth_key.key
     ssh_host_key = tls_private_key.ssh_host_key
-    ssh_user_key = data.hcloud_ssh_key.ssh_user_key
     server_name = var.server_name
   })
 }
