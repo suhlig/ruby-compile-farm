@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+
+set -euo pipefail
+
+if ! terraform show -json | jq --exit-status '.values' > /dev/null; then
+  echo Nothing to destroy
+  exit 1
+fi
+
+serverName=$(terraform show -json | jq --raw-output '.values.root_module.resources[] | select (.type == "hcloud_server").values.name')
+
+# Removing a device is currently only possible using the API: https://tailscale.com/kb/1260/device-remove
+curl --request DELETE \
+     --header "Authorization: Bearer $TAILSCALE_API_KEY" \
+  https://api.tailscale.com/api/v2/device/$(
+    tailscale status --json \
+    | jq --exit-status --raw-output --arg serverName "$serverName" '.Peer[] | select(.HostName == $serverName) | .ID'
+  )
+
+terraform apply -destroy -var server_name=$serverName
+ssh-keygen -R $serverName

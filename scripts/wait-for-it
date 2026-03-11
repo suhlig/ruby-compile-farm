@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+
+set -euo pipefail
+
+for tool in terraform jq hcloud tailscale; do
+  if ! command -v $tool &> /dev/null; then
+    echo "required tool $tool missing"
+    exit 1
+  fi
+done
+
+serverName=$(terraform show -json | jq --raw-output '.values.root_module.resources[] | select (.type == "hcloud_server").values.name')
+
+until hcloud server list --output json | jq --raw-output --exit-status --arg serverName "$serverName" '.[] | select(.name == $serverName).status' > /dev/null; do
+  echo Server "'$serverName'" not available yet…
+  sleep 1
+done
+
+until tailscale status --json | jq --exit-status --arg serverName "$serverName" '.Peer[] | select(.Online and .HostName == $serverName) | { HostName, Created }'; do
+  echo Tailscale machine "$serverName" not available yet…
+  sleep 1
+done
