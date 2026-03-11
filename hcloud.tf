@@ -43,3 +43,7 @@ output "ssh_host_key_fingerprint" {
 output "ssh_user_key_fingerprint" {
   value = data.hcloud_ssh_key.ssh_user_key.fingerprint
 }
+
+output "ssh_host_key_public" {
+  value = tls_private_key.ssh_host_key.public_key_openssh
+}

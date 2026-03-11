@@ -8,18 +8,23 @@ We are using Terraform to
 
 1. Create a new VM,
 1. Install Tailscale, and
-1. Install additional software using `cloud-init` (and, transitively, Ansible).
 
 ## Prerequsites
 
 * The environment variable `HCLOUD_TOKEN` must be a valid [Hetzner Cloud Token](https://docs.hetzner.cloud/#authentication).
 * The environment variable `TAILSCALE_API_KEY` must have a valid [Tailscale API key](https://login.tailscale.com/admin/settings/keys)
-* The server name is set in `variables.tf`, or it must be passed on the command line as `-var server_name=foobar`.
+* The server name is set in `variables.tf`, and can be overwritten on the command line as `-var server_name=foobar`.
 
 ## Up
 
 ```command
-(timeout 120 zsh -c "terraform apply -var server_name=ruby-compiler && scripts/wait-for-it && notify-done 'Server is ready'") || notify-done "Server creation timed out"
+scripts/create
+```
+
+## Down
+
+```command
+scripts/destroy
 ```
 
 # Troubleshooting
