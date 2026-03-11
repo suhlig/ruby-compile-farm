@@ -7,3 +7,5 @@ scripts/wait-for-it
 
 serverName=$(terraform show -json | jq --raw-output '.values.root_module.resources[] | select (.type == "hcloud_server").values.name')
 echo "$serverName $(terraform output -raw ssh_host_key_public)" >> ~/.ssh/known_hosts
+
+ansible-playbook --inventory inventory.yml playbook.yml
