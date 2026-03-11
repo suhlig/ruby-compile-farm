@@ -11,5 +11,18 @@ done
 
 serverName=$(terraform show -json | jq --raw-output '.values.root_module.resources[] | select (.type == "hcloud_server").values.name')
 
-retry --until=success --delay "1,2,4,8,16,32,64" -- hcloud server list --output json | jq --raw-output --exit-status --arg serverName "$serverName" '.[] | select(.name == $serverName).status' > /dev/null
-retry --until=success --delay "1,2,4,8,16,32,64" -- tailscale status --json | jq --exit-status --arg serverName "$serverName" '.Peer[] | select(.Online and .HostName == $serverName) | { HostName, Created }'
+retry \
+  --until=success \
+  --times 7 \
+  --delay "1,2,4,8,16,32,64" \
+  --message "Check if Hetzner server is up" \
+  -- \
+    zsh -c "hcloud server list --output json | jq --raw-output --exit-status --arg serverName $serverName '.[] | select(.name == \$serverName).status' > /dev/null"
+
+retry \
+  --until=success \
+  --times 7 \
+  --delay "1,2,4,8,16,32,64" \
+  --message "Check if Tailscale network is up" \
+  -- \
+    zsh -c "tailscale status --json 2> /dev/null | jq --exit-status --arg serverName $serverName '.Peer[] | select(.Online and .HostName == \$serverName) | { HostName, Created }'"
