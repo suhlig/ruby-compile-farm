@@ -5,7 +5,7 @@ package_upgrade: true
 ssh_pwauth: false
 ssh_keys:
   ed25519_private: |
-    ${indent(4, ssh_host_key.private_key_openssh)}
+    ${indent(4, ssh_host_key.private_key_pem)}
   ed25519_public: |
     ${indent(4, ssh_host_key.public_key_openssh)}
 runcmd:
