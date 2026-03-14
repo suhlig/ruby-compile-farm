@@ -6,7 +6,7 @@
   tags: [ ruby, build, directory ]
 - name: Copy Dockerfile to remote host
   ansible.builtin.copy:
-    src: files/Dockerfile
+    src: Dockerfile
     dest: "{{ build_dir.path }}/Dockerfile"
   tags: [ ruby, build, docker, copy ]
 - name: Build Docker image
