@@ -16,3 +16,5 @@
       vars: { docker_users: [ suhlig ] }
       become: true
       tags: [ docker ]
+    - role: ruby_builder
+      tags: [ build ]
