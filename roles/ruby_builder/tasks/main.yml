@@ -14,6 +14,7 @@
     build:
       path: "{{ build_dir.path }}"
       platform: linux/arm/v7
+      args: { RUBY_VERSION: "{{ ruby_version }}" }
     name: ruby-builder
     source: build
   tags: [ ruby, build, docker, image ]
@@ -25,17 +26,17 @@
     command: "true"
   tags: [ ruby, build, docker, container ]
 - name: Copy archive from container to remote host
-  command: docker cp ruby-extract:/ruby-4.0.1-armhf-debian13.tar.gz /ruby-4.0.1-armhf-debian13.tar.gz
+  command: docker cp ruby-extract:/ruby-{{ ruby_version }}-armhf-debian13.tar.gz /ruby-{{ ruby_version }}-armhf-debian13.tar.gz
   tags: [ ruby, build, docker, container, copy ]
 - name: Fetch archive to controlling machine
   fetch:
-    src: /ruby-4.0.1-armhf-debian13.tar.gz
+    src: /ruby-{{ ruby_version }}-armhf-debian13.tar.gz
     dest: ./
     flat: yes
   tags: [ ruby, build, fetch, tarball, copy ]
 - name: Remove archive from remote host
   file:
-    path: /ruby-4.0.1-armhf-debian13.tar.gz
+    path: /ruby-{{ ruby_version }}-armhf-debian13.tar.gz
     state: absent
   tags: [ ruby, build, cleanup ]
 - name: Remove temporary container
