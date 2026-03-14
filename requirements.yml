@@ -1,1 +1,4 @@
-- src: nerab.ruby
+roles:
+  - src: nerab.ruby
+collections:
+  - name: suhlig.foundation
