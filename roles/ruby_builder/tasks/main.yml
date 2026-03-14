@@ -21,21 +21,21 @@
     name: ruby-extract
     image: ruby-builder
     state: started
-  tags: [ build ]
     command: "true"
+  tags: [ build, container ]
 - name: Fetch archive to controlling machine
   fetch:
     src: /ruby-4.0.1-armhf-debian13.tar.gz
     dest: ./
     flat: yes
-  tags: [ build ]
+  tags: [ build, container ]
 - name: Remove archive from remote host
   file:
     path: /ruby-4.0.1-armhf-debian13.tar.gz
     state: absent
-  tags: [ build ]
+  tags: [ build, container ]
 - name: Remove temporary container
   community.docker.docker_container:
     name: ruby-extract
     state: absent
-  tags: [ build ]
+  tags: [ build, container ]
