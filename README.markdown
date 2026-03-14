@@ -6,8 +6,8 @@ TODO
 
 We are using Terraform to
 
-1. Create a new VM,
-1. Install Tailscale, and
+1. Create a new VM, and
+1. Install Tailscale
 
 ## Prerequsites
 
