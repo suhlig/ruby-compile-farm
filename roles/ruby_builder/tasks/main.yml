@@ -1,15 +1,15 @@
-- name: Create temporary build directory
+- name: Temporary build directory exists
   ansible.builtin.tempfile:
     state: directory
     suffix: ruby-build
   register: build_dir
   tags: [ ruby, build, directory ]
-- name: Copy Dockerfile to remote host
+- name: Dockerfile is available on the remote host
   ansible.builtin.copy:
     src: Dockerfile
     dest: "{{ build_dir.path }}/Dockerfile"
   tags: [ ruby, build, docker, copy ]
-- name: Build Docker image
+- name: Docker image is built
   community.docker.docker_image:
     build:
       path: "{{ build_dir.path }}"
@@ -18,33 +18,33 @@
     name: ruby-builder
     source: build
   tags: [ ruby, build, docker, image ]
-- name: Create temporary container
+- name: Ruby is compiled and archived
   community.docker.docker_container:
     name: ruby-extract
     image: ruby-builder
     state: started
     command: "true"
   tags: [ ruby, build, docker, container ]
-- name: Copy archive from container to remote host
+- name: Archive from container is available on the remote host
   ansible.builtin.command: docker cp ruby-extract:/ruby-{{ ruby_version }}-armhf-debian13.tar.gz /ruby-{{ ruby_version }}-armhf-debian13.tar.gz
   tags: [ ruby, build, docker, container, copy ]
-- name: Fetch archive to controlling machine
+- name: Archive is available on the controlling machine
   ansible.builtin.fetch:
     src: /ruby-{{ ruby_version }}-armhf-debian13.tar.gz
     dest: ./
     flat: yes
   tags: [ ruby, build, fetch, tarball, copy ]
-- name: Remove archive from remote host
+- name: Archive is removed from remote host
   ansible.builtin.file:
     path: /ruby-{{ ruby_version }}-armhf-debian13.tar.gz
     state: absent
   tags: [ ruby, build, cleanup ]
-- name: Remove temporary container
+- name: Temporary container is removed
   community.docker.docker_container:
     name: ruby-extract
     state: absent
   tags: [ ruby, build, docker, container, cleanup ]
-- name: Remove temporary build directory
+- name: Temporary build directory is removed
   ansible.builtin.file:
     path: "{{ build_dir.path }}"
     state: absent
