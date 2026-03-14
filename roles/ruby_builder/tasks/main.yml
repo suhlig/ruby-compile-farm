@@ -3,13 +3,11 @@
     path: ~/ruby-build
     state: directory
   tags: [ build ]
-
 - name: Copy Dockerfile to remote host
   copy:
     src: Dockerfile
     dest: ~/ruby-build/Dockerfile
   tags: [ build ]
-
 - name: Build Docker image
   community.docker.docker_image:
     build:
@@ -23,8 +21,8 @@
     name: ruby-extract
     image: ruby-builder
     state: started
-    command: true
   tags: [ build ]
+    command: "true"
 - name: Fetch archive to controlling machine
   fetch:
     src: /ruby-4.0.1-armhf-debian13.tar.gz
