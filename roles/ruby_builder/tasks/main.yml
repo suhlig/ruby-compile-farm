@@ -23,6 +23,9 @@
     state: started
     command: "true"
   tags: [ build, container ]
+- name: Copy archive from container to remote host
+  command: docker cp ruby-extract:/ruby-4.0.1-armhf-debian13.tar.gz /ruby-4.0.1-armhf-debian13.tar.gz
+  tags: [ build, container ]
 - name: Fetch archive to controlling machine
   fetch:
     src: /ruby-4.0.1-armhf-debian13.tar.gz
