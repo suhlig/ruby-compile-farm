@@ -1,14 +1,6 @@
 - name: Deploy the ruby compile farm
   hosts: all
   roles:
-    - role: nerab.ruby
-      vars:
-        ruby_version:
-          major: 4
-          minor: 0
-          teeny: 1
-      become: true
-      tags: [ ruby ]
     - role: suhlig.foundation.minimal
       become: true
       tags: [ suhlig ]
