@@ -1,6 +1,6 @@
 # Ruby Compile Farm
 
-TODO
+Creates a Hetzner ARM VM, downloads a Ruby compiler, compiles it for `arm-linux-gnueabihf` (for a 32 bit Raspberry Pi, e.g. Raspberry Pi 3 or Zero 2W),zips it up and downlads it to the controlling machine.
 
 # Installation
 
@@ -19,6 +19,15 @@ We are using Terraform to
 
 ```command
 scripts/create
+```
+
+The playbook will download the compiled Ruby as `ruby-4.0.1-armhf-debian13.tar.gz` to the controlling machine.
+
+When copied to a Raspberry Pi, it can be unpacked and installed and used using the following commands:
+
+```command
+$ sudo tar -xzf ruby-4.0.1-armhf-debian13.tar.gz -C /
+$ PATH=/opt/ruby-4.0.1/bin:$PATH ruby --version
 ```
 
 ## Down
