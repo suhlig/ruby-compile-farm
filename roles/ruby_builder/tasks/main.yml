@@ -1,12 +1,12 @@
 - name: Create temporary build directory
-  tempfile:
+  ansible.builtin.tempfile:
     state: directory
     suffix: ruby-build
   register: build_dir
   tags: [ ruby, build, directory ]
 - name: Copy Dockerfile to remote host
-  copy:
-    src: Dockerfile
+  ansible.builtin.copy:
+    src: files/Dockerfile
     dest: "{{ build_dir.path }}/Dockerfile"
   tags: [ ruby, build, docker, copy ]
 - name: Build Docker image
@@ -26,16 +26,16 @@
     command: "true"
   tags: [ ruby, build, docker, container ]
 - name: Copy archive from container to remote host
-  command: docker cp ruby-extract:/ruby-{{ ruby_version }}-armhf-debian13.tar.gz /ruby-{{ ruby_version }}-armhf-debian13.tar.gz
+  ansible.builtin.command: docker cp ruby-extract:/ruby-{{ ruby_version }}-armhf-debian13.tar.gz /ruby-{{ ruby_version }}-armhf-debian13.tar.gz
   tags: [ ruby, build, docker, container, copy ]
 - name: Fetch archive to controlling machine
-  fetch:
+  ansible.builtin.fetch:
     src: /ruby-{{ ruby_version }}-armhf-debian13.tar.gz
     dest: ./
     flat: yes
   tags: [ ruby, build, fetch, tarball, copy ]
 - name: Remove archive from remote host
-  file:
+  ansible.builtin.file:
     path: /ruby-{{ ruby_version }}-armhf-debian13.tar.gz
     state: absent
   tags: [ ruby, build, cleanup ]
@@ -45,7 +45,7 @@
     state: absent
   tags: [ ruby, build, docker, container, cleanup ]
 - name: Remove temporary build directory
-  file:
+  ansible.builtin.file:
     path: "{{ build_dir.path }}"
     state: absent
   tags: [ ruby, build, cleanup ]
