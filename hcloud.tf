@@ -25,7 +25,7 @@ resource "hcloud_server" "hcloud-server" {
   image       = "debian-13" # hcloud image list --type system
   location    = "fsn1"      # hcloud datacenter list
   public_net {
-    ipv4_enabled = false
+    ipv4_enabled = true # github.com is not reachable via IPv4
     ipv6_enabled = true
   }
   ssh_keys = [ "suhlig@lima" ] # already uploaded to Hetzner
