@@ -1,7 +1,19 @@
+- name: Create build directory
+  file:
+    path: ~/ruby-build
+    state: directory
+  tags: [ build ]
+
+- name: Copy Dockerfile to remote host
+  copy:
+    src: Dockerfile
+    dest: ~/ruby-build/Dockerfile
+  tags: [ build ]
+
 - name: Build Docker image
   community.docker.docker_image:
     build:
-      path: .
+      path: ~/ruby-build
       platform: linux/arm/v7
     name: ruby-builder
     source: build
