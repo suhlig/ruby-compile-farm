@@ -2,12 +2,12 @@
   file:
     path: ~/ruby-build
     state: directory
-  tags: [ build ]
+  tags: [ ruby, build, directory ]
 - name: Copy Dockerfile to remote host
   copy:
     src: Dockerfile
     dest: ~/ruby-build/Dockerfile
-  tags: [ build ]
+  tags: [ ruby, build, docker, copy ]
 - name: Build Docker image
   community.docker.docker_image:
     build:
@@ -15,30 +15,30 @@
       platform: linux/arm/v7
     name: ruby-builder
     source: build
-  tags: [ build ]
+  tags: [ ruby, build, docker, image ]
 - name: Create temporary container
   community.docker.docker_container:
     name: ruby-extract
     image: ruby-builder
     state: started
     command: "true"
-  tags: [ build, container ]
+  tags: [ ruby, build, docker, container ]
 - name: Copy archive from container to remote host
   command: docker cp ruby-extract:/ruby-4.0.1-armhf-debian13.tar.gz /ruby-4.0.1-armhf-debian13.tar.gz
-  tags: [ build, container ]
+  tags: [ ruby, build, docker, container, copy ]
 - name: Fetch archive to controlling machine
   fetch:
     src: /ruby-4.0.1-armhf-debian13.tar.gz
     dest: ./
     flat: yes
-  tags: [ build, container ]
+  tags: [ ruby, build, fetch, tarball, copy ]
 - name: Remove archive from remote host
   file:
     path: /ruby-4.0.1-armhf-debian13.tar.gz
     state: absent
-  tags: [ build, container ]
+  tags: [ ruby, build, cleanup ]
 - name: Remove temporary container
   community.docker.docker_container:
     name: ruby-extract
     state: absent
-  tags: [ build, container ]
+  tags: [ ruby, build, docker, container, cleanup ]

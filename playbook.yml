@@ -17,4 +17,4 @@
       become: true
       tags: [ docker ]
     - role: ruby_builder
-      tags: [ build ]
+      tags: [ ruby, build, container ]
