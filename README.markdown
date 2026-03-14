@@ -59,9 +59,9 @@ scripts/destroy
 
 1. Can you `tailscale ssh ruby-compiler` into the machine?
 
-1. Did the Ansible playbook succeed?
-
    Output appears in the cloud-init logfiles as mentioned above.
+
+1. Did the Ansible playbook succeed?
 
 # References
 
