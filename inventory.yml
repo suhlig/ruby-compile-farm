@@ -1,5 +1,7 @@
 all:
   vars:
     ansible_user: root
+    os_name: debian
+    os_version: "13"
   hosts:
     ruby-compiler:

@@ -1,1 +1,5 @@
 ruby_version: 4.0.1
+gnu_host: arm-linux-gnueabihf
+docker_platform: linux/arm/v7
+base_image: "{{ os_name }}:{{ os_version }}"
+platform_label: "armhf-{{ os_name }}-{{ os_version }}"

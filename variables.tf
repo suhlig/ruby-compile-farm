@@ -5,6 +5,16 @@ terraform {
   }
 }
 
+variable "os_name" {
+  description = "OS name"
+  type        = string
+}
+
+variable "os_version" {
+  description = "OS version"
+  type        = string
+}
+
 variable "server_name" {
   description = "Server name"
   type        = string

@@ -26,7 +26,7 @@ resource "hcloud_server" "hcloud-server" {
   //   cax11 => 10m47s
   //   cax41 =>  5m41s
   server_type = "cax11"     # hcloud server-type list
-  image       = "debian-13" # hcloud image list --type system
+  image       = "${var.os_name}-${var.os_version}" # hcloud image list --type system
   location    = "fsn1"      # hcloud datacenter list
   public_net {
     ipv4_enabled = true # needed because github.com is not reachable via IPv4

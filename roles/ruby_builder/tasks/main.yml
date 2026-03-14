@@ -13,8 +13,13 @@
   community.docker.docker_image:
     build:
       path: "{{ build_dir.path }}"
-      platform: linux/arm/v7
-      args: { RUBY_VERSION: "{{ ruby_version }}" }
+      platform: "{{ docker_platform }}"
+      args:
+        RUBY_VERSION: "{{ ruby_version }}"
+        DOCKER_PLATFORM: "{{ docker_platform }}"
+        GNU_HOST: "{{ gnu_host }}"
+        PLATFORM_LABEL: "{{ platform_label }}"
+        BASE_IMAGE: "{{ base_image }}"
     name: ruby-builder
     source: build
   tags: [ ruby, build, docker, image ]
@@ -26,17 +31,17 @@
     command: "true"
   tags: [ ruby, build, docker, container ]
 - name: Archive from container is available on the remote host
-  ansible.builtin.command: docker cp ruby-extract:/ruby-{{ ruby_version }}-armhf-debian13.tar.gz /ruby-{{ ruby_version }}-armhf-debian13.tar.gz
+  ansible.builtin.command: docker cp ruby-extract:/ruby-{{ ruby_version }}-{{ platform_label }}.tar.gz /ruby-{{ ruby_version }}-{{ platform_label }}.tar.gz
   tags: [ ruby, build, docker, container, copy ]
 - name: Archive is available on the controlling machine
   ansible.builtin.fetch:
-    src: /ruby-{{ ruby_version }}-armhf-debian13.tar.gz
+    src: /ruby-{{ ruby_version }}-{{ platform_label }}.tar.gz
     dest: ./
     flat: yes
   tags: [ ruby, build, fetch, tarball, copy ]
 - name: Archive is removed from remote host
   ansible.builtin.file:
-    path: /ruby-{{ ruby_version }}-armhf-debian13.tar.gz
+    path: /ruby-{{ ruby_version }}-{{ platform_label }}.tar.gz
     state: absent
   tags: [ ruby, build, cleanup ]
 - name: Temporary container is removed

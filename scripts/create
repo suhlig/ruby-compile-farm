@@ -2,6 +2,9 @@
 
 set -euo pipefail
 
+export TF_VAR_os_name=$(ansible-inventory --inventory inventory.yml --host all | jq --raw-output '.os_name')
+export TF_VAR_os_version=$(ansible-inventory --inventory inventory.yml --host all | jq --raw-output '.os_version')
+
 terraform apply
 scripts/wait-for-it
 
