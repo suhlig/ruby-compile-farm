@@ -1,4 +1,5 @@
 roles:
   - src: nerab.ruby
+  - src: geerlingguy.docker
 collections:
   - name: suhlig.foundation
