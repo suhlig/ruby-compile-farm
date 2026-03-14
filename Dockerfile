@@ -18,7 +18,7 @@ RUN curl -O https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.1.tar.gz && \
 
 # 3. Configure the build
 WORKDIR /tmp/ruby-4.0.1
-RUN ./configure --prefix=/opt/ruby --disable-install-doc
+RUN ./configure --host=arm-linux-gnueabihf --prefix=/opt/ruby --disable-install-doc
 
 # 4. Compile
 RUN make -j$(nproc) && make install
