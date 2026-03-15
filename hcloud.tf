@@ -22,14 +22,14 @@ data "hcloud_ssh_key" "ssh_user_key" {
 resource "hcloud_server" "hcloud-server" {
   name = var.server_name
   // The machine type does not have an overwhelming effect on total processing time,
-  // possibly because not all of the process is perfectly parallelized:
+  // possibly because not all parts of the process are perfectly parallelized:
   //   cax11 => 10m47s
   //   cax41 =>  5m41s
   server_type = "cax11"     # hcloud server-type list
   image       = "${var.os_name}-${var.os_version}" # hcloud image list --type system
   location    = "fsn1"      # hcloud datacenter list
   public_net {
-    ipv4_enabled = true # needed because github.com is not reachable via IPv4
+    ipv4_enabled = true # needed because github.com is only reachable via IPv4
     ipv6_enabled = true
   }
   ssh_keys = [ "suhlig@lima" ] # already uploaded to Hetzner
