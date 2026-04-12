@@ -1,17 +1,17 @@
 - name: Deploy the ruby compile farm
   hosts: all
+  tasks:
+    - name: User exists
+      ansible.builtin.user:
+        name: suhlig
+        comment: Steffen Uhlig
+        shell: /usr/bin/zsh
+        state: present
+      tags: [ user, zsh ]
   roles:
     - role: suhlig.foundation.minimal
       become: true
       tags: [ suhlig ]
-    - role: suhlig.foundation.local_user
-      vars:
-        local_user:
-          name: suhlig
-          comment: Steffen Uhlig
-          github_user: suhlig
-      become: true
-      tags: [ suhlig, user ]
     - role: geerlingguy.docker
       vars: { docker_users: [ suhlig ] }
       become: true
