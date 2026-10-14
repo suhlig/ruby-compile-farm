@@ -1,3 +1,5 @@
+> **Archived 2026-10-14.** Retired — the Hetzner ARM VM used to cross-compile Ruby for 32-bit Raspberry Pi is no longer provisioned or maintained.
+
 # Ruby Compile Farm
 
 Creates a Hetzner ARM VM, downloads a Ruby compiler, compiles it for `arm-linux-gnueabihf` (for a 32 bit Raspberry Pi, e.g. Raspberry Pi 3 or Zero 2W),zips it up and downlads it to the controlling machine.
